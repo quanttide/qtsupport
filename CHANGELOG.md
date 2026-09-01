@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## [Unreleased]
+
+### Added
+- `src/studio`：客户提交工单前台（Flutter Web）——侧边导航（提交工单 / 我的工单），种子工单在 `assets/data`（journal 案例快照 × 3）
+
 ## [0.0.1] - 2026-09-01
 
 ### Added
