@@ -1,0 +1,139 @@
+/* 量潮支持门户——苹果 support.apple.com 风格：大量留白、大字号标题、卡片式方案 */
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro SC", "PingFang SC", "Segoe UI", "Microsoft YaHei", sans-serif;
+  line-height: 1.6;
+  color: #1d1d1f;
+  background-color: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { min-height: 100vh; }
+a { color: #0066cc; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── 布局 ── */
+.app { min-height: 100vh; display: flex; flex-direction: column; }
+main { flex: 1; }
+.page { max-width: 980px; margin: 0 auto; padding: 0 22px; }
+
+/* ── 顶部导航（苹果式细高、半透明毛玻璃） ── */
+.site-header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+.header-inner {
+  max-width: 980px; margin: 0 auto; padding: 0 22px;
+  height: 48px; display: flex; align-items: center; justify-content: space-between;
+}
+.brand { font-size: 1.05rem; font-weight: 600; color: #1d1d1f; }
+.brand:hover { text-decoration: none; }
+.site-header nav { display: flex; gap: 28px; }
+.site-header nav a { font-size: 0.82rem; color: #424245; }
+.site-header nav a:hover { color: #0066cc; text-decoration: none; }
+
+/* ── Hero（搜索即入口） ── */
+.hero { text-align: center; padding: 90px 0 70px; }
+.hero h1 { font-size: 3.2rem; font-weight: 700; letter-spacing: -0.02em; }
+.hero-sub { font-size: 1.25rem; color: #6e6e73; margin-top: 12px; }
+.hero-search {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-top: 36px; padding: 14px 28px;
+  background: #f5f5f7; border-radius: 12px;
+  color: #86868b; font-size: 1.05rem; min-width: 340px;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.hero-search:hover { background: #ebebed; text-decoration: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+.search-icon { font-size: 1rem; }
+
+/* ── 区块 ── */
+.section { padding: 40px 0 60px; }
+.section h2 { font-size: 1.9rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 28px; }
+
+/* ── 方案卡片网格 ── */
+.solution-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+}
+.solution-card {
+  background: #f5f5f7; border-radius: 18px; padding: 28px 24px;
+  color: inherit; display: flex; flex-direction: column; gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.solution-card:hover { text-decoration: none; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
+.solution-card h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.4; }
+.card-excerpt { font-size: 0.88rem; color: #6e6e73; line-height: 1.55; }
+
+/* label 徽章 */
+.label {
+  display: inline-block; align-self: flex-start;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
+  padding: 3px 10px; border-radius: 999px;
+}
+.label-faq { background: #e8f0fe; color: #1a63d6; }
+.label-guide { background: #e6f6ec; color: #1d8a3c; }
+.label-policy { background: #fdf0e0; color: #b06000; }
+.label-background { background: #f3eafc; color: #7a3bbf; }
+
+/* ── 方案列表页 ── */
+.page-header { padding: 70px 0 10px; }
+.page-header h1 { font-size: 2.6rem; font-weight: 700; letter-spacing: -0.02em; }
+.page-header p { color: #6e6e73; font-size: 1.05rem; margin-top: 8px; }
+.solution-list { padding: 24px 0 60px; display: flex; flex-direction: column; }
+.solution-row {
+  display: flex; justify-content: space-between; align-items: flex-start; gap: 20px;
+  padding: 26px 4px; border-bottom: 1px solid #e8e8ed; color: inherit;
+}
+.solution-row:hover { text-decoration: none; }
+.solution-row:hover h3 { color: #0066cc; }
+.solution-row h3 { font-size: 1.2rem; font-weight: 600; margin-bottom: 6px; transition: color 0.15s; }
+
+/* ── 方案详情页 ── */
+.breadcrumb { padding: 30px 0 0; font-size: 0.85rem; color: #6e6e73; }
+.breadcrumb a { color: #0066cc; }
+.solution-article { max-width: 720px; padding: 30px 0 20px; }
+.solution-article h1 { font-size: 2.4rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 28px; }
+.solution-article h2 { font-size: 1.45rem; font-weight: 700; margin: 34px 0 12px; }
+.solution-article h3 { font-size: 1.15rem; font-weight: 600; margin: 26px 0 10px; }
+.solution-article p { margin: 12px 0; font-size: 1.02rem; }
+.solution-article ul, .solution-article ol { margin: 12px 0; padding-left: 24px; }
+.solution-article li { margin: 6px 0; font-size: 1.02rem; }
+.solution-article table {
+  border-collapse: collapse; margin: 18px 0; width: auto; min-width: 50%;
+}
+.solution-article th, .solution-article td {
+  border: 1px solid #d2d2d7; padding: 8px 16px; font-size: 0.95rem; text-align: left;
+}
+.solution-article th { background: #f5f5f7; font-weight: 600; }
+
+/* 反馈区（苹果式"没有找到答案"） */
+.solution-feedback {
+  max-width: 720px; margin: 30px 0 70px; padding: 22px 26px;
+  background: #f5f5f7; border-radius: 14px; font-size: 0.95rem; color: #424245;
+}
+.solution-feedback p:first-child { font-weight: 600; margin-bottom: 4px; }
+
+.back-link { display: inline-block; margin-top: 14px; font-size: 0.95rem; }
+
+/* ── 更多支持方式 ── */
+.channels { background: #f5f5f7; border-radius: 18px; padding: 44px 36px; margin: 20px 0 70px; }
+.channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
+.channel-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
+.channel-card p { font-size: 0.9rem; color: #6e6e73; }
+
+/* ── 页脚 ── */
+.site-footer { border-top: 1px solid #e8e8ed; margin-top: 30px; }
+.footer-inner { max-width: 980px; margin: 0 auto; padding: 24px 22px; }
+.footer-inner p { font-size: 0.8rem; color: #86868b; }
+.footer-note { margin-top: 4px; }
+
+/* ── 响应式 ── */
+@media (max-width: 768px) {
+  .hero h1 { font-size: 2.3rem; }
+  .hero-search { min-width: 0; width: 100%; }
+  .solution-grid, .channel-grid { grid-template-columns: 1fr; }
+  .solution-row { flex-direction: column; }
+  .site-header nav { gap: 16px; }
+}

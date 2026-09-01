@@ -1,0 +1,6 @@
+# 复制为 terraform.tfvars 并按需修改
+region          = "cn-hangzhou"
+environment     = "prod"
+
+# site（React+Vite 支持门户，deploy-site.yml）桶
+oss_bucket_name = "qtsupport-site"

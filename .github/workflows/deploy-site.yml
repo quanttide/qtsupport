@@ -1,0 +1,104 @@
+# 部署 site：推送 site/* tag 时，应用基础设施（Terraform），构建 React Web 产物上传 OSS，刷新 CDN。
+#
+# 架构：site/* tag → Actions（terraform apply + npm build + ossutil cp）
+#   → OSS 桶（qtsupport-site 静态网站模式）→ 阿里云 CDN（support.quanttide.com）
+#
+# SPA 深链处理（列表 key 模式，参考 qtorg deploy-site.yml）：
+#   把 SPA 壳上传为无扩展名 key（/solutions），使深链直接访问返回 200。
+#
+# 所需 GitHub secrets（org 级，已有）：
+#   - ALIYUN_ACCESS_KEY_ID / ALIYUN_ACCESS_KEY_SECRET
+
+name: Deploy Site
+
+on:
+  push:
+    tags:
+      - 'site/**'
+
+concurrency:
+  group: deploy-site
+  cancel-in-progress: false
+
+env:
+  OSS_BUCKET: qtsupport-site
+  OSS_ENDPOINT: oss-cn-hangzhou.aliyuncs.com
+  CDN_DOMAIN: support.quanttide.com
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Apply infrastructure (Terraform)
+        working-directory: manifests/terraform
+        run: |
+          terraform init \
+            -backend-config="bucket=${{ secrets.TF_STATE_BUCKET || 'quanttide-terraform-state' }}" \
+            -backend-config="key=qtsupport/site.tfstate" \
+            -backend-config="region=cn-hangzhou"
+          terraform apply -input=false -auto-approve \
+            -var region=cn-hangzhou \
+            -var environment=prod \
+            -var oss_bucket_name=qtsupport-site \
+            -target=alicloud_oss_bucket.site \
+            -target=alicloud_cdn_domain_new.site \
+            -target=alicloud_cdn_domain_config.site_private_back \
+            -target=alicloud_cdn_domain_config.site_spa_fallback \
+            -target=alicloud_cdn_domain_config.site_https_force \
+            -target=alicloud_alidns_record.site
+        env:
+          ALICLOUD_ACCESS_KEY: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          ALICLOUD_SECRET_KEY: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+
+      - name: Build site
+        working-directory: src/site
+        run: |
+          npm ci
+          npm run build
+
+      - name: Setup ossutil
+        uses: manyuanrong/setup-ossutil@v3.0
+        with:
+          endpoint: ${{ env.OSS_ENDPOINT }}
+          access-key-id: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          access-key-secret: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
+
+      # 缓存策略分离：产物（assets/* 哈希文件）长缓存；入口 index.html no-cache
+      - name: Upload to OSS（产物长缓存）
+        run: ossutil cp src/site/dist/ oss://${{ env.OSS_BUCKET }}/ -r -f --meta=Cache-Control:public,max-age=31536000
+
+      - name: Upload to OSS（入口文件 no-cache）
+        run: |
+          for f in index.html; do
+            ossutil cp "src/site/dist/$f" "oss://${{ env.OSS_BUCKET }}/$f" -f --meta=Cache-Control:no-cache
+          done
+
+      # SPA 路由 200：SPA 壳上传为无扩展名 key（深链直接 200 + text/html）
+      - name: Upload SPA route entries（200）
+        run: |
+          ossutil cp src/site/dist/index.html oss://${{ env.OSS_BUCKET }}/solutions -f --meta "Content-Type:text/html" --meta "Cache-Control:no-cache"
+
+      - name: Refresh CDN
+        run: |
+          pip install aliyun-python-sdk-cdn
+          python -c "
+          from aliyunsdkcore.client import AcsClient
+          from aliyunsdkcdn.request.v20180510.RefreshObjectCachesRequest import RefreshObjectCachesRequest
+          import os
+          cli = AcsClient(os.environ['ALIYUN_ACCESS_KEY_ID'], os.environ['ALIYUN_ACCESS_KEY_SECRET'], 'cn-hangzhou')
+          req = RefreshObjectCachesRequest()
+          req.set_ObjectPath('https://${{ env.CDN_DOMAIN }}/')
+          req.set_ObjectType('Directory')
+          cli.do_action_with_exception(req)
+          "
+        env:
+          ALIYUN_ACCESS_KEY_ID: ${{ secrets.ALIYUN_ACCESS_KEY_ID }}
+          ALIYUN_ACCESS_KEY_SECRET: ${{ secrets.ALIYUN_ACCESS_KEY_SECRET }}
