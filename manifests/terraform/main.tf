@@ -29,12 +29,12 @@ variable "oss_bucket_name" {
   default     = "qtsupport-site"
 }
 
-# 平台远程状态：资源组等系统级资源引用
+# 平台远程状态：资源组等系统级资源引用（state 在 env:/quanttide-platform/terraform.tfstate，prefix 为 OSS backend 默认）
 data "terraform_remote_state" "platform" {
   backend = "oss"
   config = {
     bucket   = "quanttide-terraform-state"
-    key      = "platform/terraform.tfstate"
+    key      = "quanttide-platform/terraform.tfstate"
     region   = "cn-hangzhou"
     endpoint = "oss-cn-hangzhou.aliyuncs.com"
   }
