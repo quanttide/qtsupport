@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 ### Added
+- `CONTRIBUTING.md` 新增：提交规则从 `AGENTS.md` 分解而来；`AGENTS.md` 收敛为指向领域仓与本仓 CONTRIBUTING 的指引
 - `src/studio`：客户提交工单前台（Flutter Web）——侧边导航（提交工单 / 我的工单），种子工单在 `assets/data`（journal 案例快照 × 3）
 
 ## [0.0.1] - 2026-09-01
