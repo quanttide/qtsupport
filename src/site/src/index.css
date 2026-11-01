@@ -47,7 +47,6 @@ main { flex: 1; }
   transition: box-shadow 0.2s, background 0.2s;
 }
 .hero-search:hover { background: #ebebed; text-decoration: none; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-.search-icon { font-size: 1rem; }
 
 /* ── 区块 ── */
 .section { padding: 40px 0 60px; }
@@ -64,18 +63,6 @@ main { flex: 1; }
 }
 .solution-card:hover { text-decoration: none; transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,0.08); }
 .solution-card h3 { font-size: 1.15rem; font-weight: 600; line-height: 1.4; }
-.card-excerpt { font-size: 0.88rem; color: #6e6e73; line-height: 1.55; }
-
-/* label 徽章 */
-.label {
-  display: inline-block; align-self: flex-start;
-  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.02em;
-  padding: 3px 10px; border-radius: 999px;
-}
-.label-faq { background: #e8f0fe; color: #1a63d6; }
-.label-guide { background: #e6f6ec; color: #1d8a3c; }
-.label-policy { background: #fdf0e0; color: #b06000; }
-.label-background { background: #f3eafc; color: #7a3bbf; }
 
 /* ── 方案列表页 ── */
 .page-header { padding: 70px 0 10px; }
@@ -108,32 +95,20 @@ main { flex: 1; }
 }
 .solution-article th { background: #f5f5f7; font-weight: 600; }
 
-/* 反馈区（苹果式"没有找到答案"） */
-.solution-feedback {
-  max-width: 720px; margin: 30px 0 70px; padding: 22px 26px;
-  background: #f5f5f7; border-radius: 14px; font-size: 0.95rem; color: #424245;
-}
-.solution-feedback p:first-child { font-weight: 600; margin-bottom: 4px; }
-
 .back-link { display: inline-block; margin-top: 14px; font-size: 0.95rem; }
 
-/* ── 更多支持方式 ── */
-.channels { background: #f5f5f7; border-radius: 18px; padding: 44px 36px; margin: 20px 0 70px; }
-.channel-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; }
-.channel-card h3 { font-size: 1.05rem; font-weight: 600; margin-bottom: 8px; }
-.channel-card p { font-size: 0.9rem; color: #6e6e73; }
+/* 业务线分组标题（问题列表页） */
+.biz-heading { font-size: 1.35rem; font-weight: 700; margin: 30px 0 14px; }
 
 /* ── 页脚 ── */
 .site-footer { border-top: 1px solid #e8e8ed; margin-top: 30px; }
 .footer-inner { max-width: 980px; margin: 0 auto; padding: 24px 22px; }
 .footer-inner p { font-size: 0.8rem; color: #86868b; }
-.footer-note { margin-top: 4px; }
 
 /* ── 响应式 ── */
 @media (max-width: 768px) {
   .hero h1 { font-size: 2.3rem; }
   .hero-search { min-width: 0; width: 100%; }
-  .solution-grid, .channel-grid { grid-template-columns: 1fr; }
+  .solution-grid { grid-template-columns: 1fr; }
   .solution-row { flex-direction: column; }
-  .site-header nav { gap: 16px; }
 }

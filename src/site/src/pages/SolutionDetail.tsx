@@ -58,19 +58,12 @@ export default function SolutionDetail() {
   return (
     <div className="page solution-page">
       <nav className="breadcrumb">
-        <Link to="/">支持</Link> / <Link to="/solutions">解决方案</Link> / <span>{solution.title}</span>
+        <Link to="/">首页</Link> / <Link to="/solutions">问题</Link> / <span>{solution.title}</span>
       </nav>
       <article className="solution-article">
         <h1>{solution.title}</h1>
         {renderContent(solution.content)}
       </article>
-      <aside className="solution-feedback">
-        <p>没有解决你的问题？</p>
-        <p>
-          在<a href="https://class.quanttide.com/learn" target="_blank" rel="noreferrer">实训基地群</a>
-          {' '}提问（免费），或<a href="https://www.quanttide.com" target="_blank" rel="noreferrer">联系我们</a>。
-        </p>
-      </aside>
     </div>
   )
 }
